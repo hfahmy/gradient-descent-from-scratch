@@ -1,0 +1,28 @@
+# General Python files and virtual environments
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+.python-version
+venv/
+.env
+env/
+
+# Machine learning specific files
+models/
+data/
+checkpoints/
+logs/
+runs/
+*.h5
+*.pkl
+*.bin
+
+# Jupyter Notebook specific files
+.ipynb_checkpoints/
+
+# Operating System and IDE files
+.DS_Store
+.idea/
+.vscode/
