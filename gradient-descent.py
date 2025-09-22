@@ -1,10 +1,11 @@
 import numpy as np
 import pandas as pd
 import matplotlib as plt
+import math
 
 
 points = np.array([
-    [0, 1.4],
+    [0.5, 1.4],
     [2.3, 1.9],
     [2.9, 3.2]
 ])
@@ -21,6 +22,7 @@ def estimate_y(x: np.array, a: float, b: float) -> np.array:
 initial_guess_a, initial_guess_b = 0, 1
 learning_rate = 0.01
 max_iterations = 1000
+min_step_size = 0.001
 
 # 2. Define the loss functions
 
@@ -39,6 +41,20 @@ def calculate_loss_b(y: np.array, y_hat: np.array, x: np.array) -> float:
     return loss
 
 # 3. Calculate the loss at the initial values
-y_hat = estimate_y(points[:, 0], initial_guess_a, initial_guess_b)
-loss_a = calculate_loss_a(points[:, 1], y_hat)
-loss_b = calculate_loss_b(points[:, 1], y_hat, points[:, 0])
+
+it = 0
+step_size_a = math.inf
+step_size_b = math.inf
+a = initial_guess_a
+b = initial_guess_b
+while ((it < max_iterations) & ((abs(step_size_a) > min_step_size) | (abs(step_size_b) > min_step_size))):
+    y_hat = estimate_y(points[:, 0], a, b)
+    loss_a = calculate_loss_a(points[:, 1], y_hat)
+    loss_b = calculate_loss_b(points[:, 1], y_hat, points[:, 0])
+    step_size_a = loss_a * learning_rate
+    step_size_b = loss_b * learning_rate
+    a -= step_size_a
+    b -= step_size_b
+    it += 1
+    print(f"{it:<1} {a=:.2f}  {abs(step_size_a)=:.2f} | {b=:.2f}  {abs(step_size_b)=:.2f}") 
+    
