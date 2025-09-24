@@ -14,20 +14,20 @@ points = np.array([
 
 # 1. Define y
 
-def estimate_y(x: np.array, a: float, b: float) -> np.array:
+def estimate_y(x: np.ndarray, a: float, b: float) -> np.ndarray:
     y = a + x * b
     return y
 
 # 2. Define the loss functions
 
-def calculate_loss_a(y: np.array, y_hat: np.array) -> float:
+def calculate_loss_a(y: np.ndarray, y_hat: np.ndarray) -> float:
     """
     Calculate the loss in y with respect to change in a
     """
     loss =-2 * np.sum(y - y_hat)
     return loss
 
-def calculate_loss_b(y: np.array, y_hat: np.array, x: np.array) -> float:
+def calculate_loss_b(y: np.ndarray, y_hat: np.ndarray, x: np.ndarray) -> float:
     """
     Calculate the loss in y with respect to change in b
     """
@@ -37,7 +37,7 @@ def calculate_loss_b(y: np.array, y_hat: np.array, x: np.array) -> float:
 # 3. Calculate the loss at the initial values
 
 def gradient_descent_linear_regression(
-    points: np.array, 
+    points: np.ndarray, 
     initial_guess_a: float = 0, 
     initial_guess_b: float = 1, 
     learning_rate: float = 0.01, 
