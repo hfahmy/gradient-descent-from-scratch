@@ -12,17 +12,11 @@ points = np.array([
 
 # Gradient descent steps
 
-# 0. Define y
+# 1. Define y
 
 def estimate_y(x: np.array, a: float, b: float) -> np.array:
     y = a + x * b
     return y
-
-# 1. Initialize parameters
-initial_guess_a, initial_guess_b = 0, 1
-learning_rate = 0.01
-max_iterations = 1000
-min_step_size = 0.001
 
 # 2. Define the loss functions
 
@@ -42,19 +36,33 @@ def calculate_loss_b(y: np.array, y_hat: np.array, x: np.array) -> float:
 
 # 3. Calculate the loss at the initial values
 
-it = 0
-step_size_a = math.inf
-step_size_b = math.inf
-a = initial_guess_a
-b = initial_guess_b
-while ((it < max_iterations) & ((abs(step_size_a) > min_step_size) | (abs(step_size_b) > min_step_size))):
-    y_hat = estimate_y(points[:, 0], a, b)
-    loss_a = calculate_loss_a(points[:, 1], y_hat)
-    loss_b = calculate_loss_b(points[:, 1], y_hat, points[:, 0])
-    step_size_a = loss_a * learning_rate
-    step_size_b = loss_b * learning_rate
-    a -= step_size_a
-    b -= step_size_b
-    it += 1
-    print(f"{it:<1} {a=:.2f}  {abs(step_size_a)=:.2f} | {b=:.2f}  {abs(step_size_b)=:.2f}") 
-    
+def gradient_descent_linear_regression(
+    points: np.array, 
+    initial_guess_a: float = 0, 
+    initial_guess_b: float = 1, 
+    learning_rate: float = 0.01, 
+    max_iterations: float = 1000, 
+    min_step_size: float = 0.00001,
+    verbose:bool = False) -> tuple[float, float]:
+    """
+    Performs gradient descent to find the optimal a and b for a linear model.
+    """
+    it = 0
+    step_size_a = math.inf
+    step_size_b = math.inf
+    a = initial_guess_a
+    b = initial_guess_b
+    while ((it < max_iterations) & ((abs(step_size_a) > min_step_size) | (abs(step_size_b) > min_step_size))):
+        y_hat = estimate_y(points[:, 0], a, b)
+        loss_a = calculate_loss_a(points[:, 1], y_hat)
+        loss_b = calculate_loss_b(points[:, 1], y_hat, points[:, 0])
+        step_size_a = loss_a * learning_rate
+        step_size_b = loss_b * learning_rate
+        a -= step_size_a
+        b -= step_size_b
+        it += 1
+        if verbose :
+            print(f"{it:<1} {a=:.8f}  {abs(step_size_a)=:.8f} | {b=:.8f}  {abs(step_size_b)=:.8f}") 
+    return(a, b)
+
+final_a, final_b = gradient_descent_linear_regression(points)
